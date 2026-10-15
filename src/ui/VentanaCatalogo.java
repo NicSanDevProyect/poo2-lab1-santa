@@ -8,6 +8,7 @@ import dominio.LibroFisico;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /** Solo arma la interfaz y traduce texto a objetos. Las reglas viven en el dominio. */
 public class VentanaCatalogo extends JFrame {
@@ -41,9 +42,16 @@ public class VentanaCatalogo extends JFrame {
 
         areaLista.setEditable(false);
 
+        JButton btnGuardar = new JButton("Guardar en archivo");
+        btnGuardar.addActionListener(e -> guardarCatalogo());
+
+        JPanel botones = new JPanel(new GridLayout(1, 2, 6, 0));
+        botones.add(btnAgregar);
+        botones.add(btnGuardar);
+
         JPanel norte = new JPanel(new BorderLayout());
         norte.add(formulario, BorderLayout.CENTER);
-        norte.add(btnAgregar, BorderLayout.SOUTH);
+        norte.add(botones, BorderLayout.SOUTH);
 
         add(norte, BorderLayout.NORTH);
         add(new JScrollPane(areaLista), BorderLayout.CENTER);
@@ -71,6 +79,25 @@ public class VentanaCatalogo extends JFrame {
                     + " deben ser números válidos.");
         } catch (DatoInvalidoException ex) {
             mostrarError(ex.getMessage());
+        }
+    }
+
+    private void guardarCatalogo() {
+        if (catalogo.listar().isEmpty()) {
+            mostrarError("Todavía no hay libros para guardar.");
+            return;
+        }
+        JFileChooser selector = new JFileChooser();
+        selector.setSelectedFile(new java.io.File("catalogo.txt"));
+        if (selector.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        try {
+            catalogo.guardarEnArchivo(selector.getSelectedFile().toPath());
+            JOptionPane.showMessageDialog(this, "Catálogo guardado correctamente.",
+                    "Guardado", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            mostrarError("No se pudo guardar el archivo. Verifica la ubicación y los permisos.");
         }
     }
 
