@@ -1,6 +1,6 @@
 # Catálogo de libros
 
-**Autor:** Nicolas Santa
+**Autor:** Nicolas Alberto Santa Ochoa
 **Curso:** Programación Orientada a Objetos II (POO2) - Laboratorio 1
 
 ## Descripción
