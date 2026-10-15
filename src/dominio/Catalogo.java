@@ -1,5 +1,10 @@
 package dominio;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +18,16 @@ public class Catalogo {
 
     public List<Libro> listar() {
         return Collections.unmodifiableList(libros);
+    }
+
+    /** Escribe una línea por libro. try-with-resources cierra el archivo aunque ocurra un error. */
+    public void guardarEnArchivo(Path destino) throws IOException {
+        try (BufferedWriter escritor = Files.newBufferedWriter(destino, StandardCharsets.UTF_8)) {
+            for (Libro l : libros) {
+                escritor.write(l.descripcion());
+                escritor.newLine();
+            }
+        }
     }
 
     /** Sobrecarga 1: por título (coincidencia parcial, sin distinguir mayúsculas). */
