@@ -5,7 +5,7 @@
 
 ## Descripción
 
-Aplicación de escritorio en Java con Swing que registra libros físicos y digitales en un catálogo que vive en memoria. Valida los datos ingresados y muestra mensajes claros en español cuando algo está mal.
+Aplicación de escritorio en Java con Swing que registra libros físicos y digitales en un catálogo que vive en memoria. Valida los datos ingresados y muestra mensajes claros en español cuando algo está mal. Además permite guardar el catálogo en un archivo de texto con el botón **Guardar en archivo**.
 
 ![Ventana del catálogo](captura.png)
 
@@ -32,6 +32,10 @@ La clase `Catalogo` no importa nada de Swing y `VentanaCatalogo` no contiene reg
 - El año debe ser un número entre 1450 y el año actual.
 - Si el año no es numérico, se atrapa `NumberFormatException` y se muestra un mensaje amable.
 - Si el año está fuera de rango, el dominio lanza `DatoInvalidoException`.
+
+## Guardar en archivo
+
+El botón **Guardar en archivo** abre un selector de ubicación y escribe una línea por libro en un archivo de texto (UTF-8). La escritura está en `Catalogo.guardarEnArchivo`, que usa `try-with-resources` para cerrar el archivo aunque ocurra un error. Si el catálogo está vacío o el disco falla, la ventana muestra un mensaje claro en español.
 
 ## Cómo ejecutarlo
 
